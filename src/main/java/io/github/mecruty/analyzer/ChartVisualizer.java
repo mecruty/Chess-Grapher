@@ -1,4 +1,4 @@
-package main.analyzer;
+package io.github.mecruty.analyzer;
 
 import java.io.File;
 import java.io.IOException;

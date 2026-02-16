@@ -1,4 +1,4 @@
-package main.collection;
+package io.github.mecruty.collection;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

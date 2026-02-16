@@ -1,4 +1,4 @@
-package main.analyzer.frequencyAnalyzers;
+package io.github.mecruty.analyzer.frequencyAnalyzers;
 
 import java.util.HashMap;
 import java.util.List;
