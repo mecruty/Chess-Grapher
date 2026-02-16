@@ -1,10 +1,10 @@
-package main.console;
+package io.github.mecruty.console;
 
 import java.util.Scanner;
 
-import main.analyzer.GameAnalyzer;
-import main.collection.CSVParser;
-import main.collection.GamesCollector;
+import io.github.mecruty.analyzer.GameAnalyzer;
+import io.github.mecruty.collection.CSVParser;
+import io.github.mecruty.collection.GamesCollector;
 
 public class ConsoleApp {
     private String username;

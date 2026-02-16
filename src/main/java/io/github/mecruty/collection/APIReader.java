@@ -1,4 +1,4 @@
-package main.collection;
+package io.github.mecruty.collection;
 
 import java.net.HttpURLConnection;
 import java.net.URI;

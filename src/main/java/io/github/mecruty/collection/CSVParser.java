@@ -1,4 +1,4 @@
-package main.collection;
+package io.github.mecruty.collection;
 
 import java.io.BufferedReader;
 import java.io.File;

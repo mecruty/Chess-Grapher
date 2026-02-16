@@ -1,9 +1,14 @@
 # Created data
-data/*
+data/
 # Except for one
 !data/info.txt
 
-# Class files
-*.class
-
 .vscode/settings.json
+
+# maven
+target/
+.settings/
+.classpath
+.project
+.factorypath
+bin/

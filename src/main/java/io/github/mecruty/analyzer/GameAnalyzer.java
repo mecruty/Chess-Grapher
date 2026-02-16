@@ -1,4 +1,4 @@
-package main.analyzer;
+package io.github.mecruty.analyzer;
 
 import java.io.File;
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.Map;
 
 import org.jfree.chart.JFreeChart;
 
-import main.analyzer.frequencyAnalyzers.ComplexFrequencyAnalyzer;
-import main.analyzer.frequencyAnalyzers.SimpleFrequencyAnalyzer;
+import io.github.mecruty.analyzer.frequencyAnalyzers.ComplexFrequencyAnalyzer;
+import io.github.mecruty.analyzer.frequencyAnalyzers.SimpleFrequencyAnalyzer;
 
 public class GameAnalyzer {
     private String username;

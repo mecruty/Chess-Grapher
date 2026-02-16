@@ -2,4 +2,4 @@
 
 # Chess games analyzer
 
-Chess.com profile analyzer. Create stats and charts to track wins, ranks, accuracies and more!
+Chess.com profile analyzer.
