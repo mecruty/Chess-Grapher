@@ -28,10 +28,11 @@ public class CSVParser {
 
         File file = new File(destination);
 
-        // Creates the parent directory if nonexistent (basically folder for the user)
+        // Creates the parent directory if nonexistent (folder for the user)
+        // Make sure there should be a parent directory
         File parent = file.getParentFile();
-        if (parent != null && !parent.exists()) {
-            parent.mkdir();
+        if (!parent.exists()) {
+            parent.mkdirs();
         }
 
         String csv = CDL.toString(docs);
