@@ -39,6 +39,7 @@ public class ChartVisualizer {
         frame.setVisible(true);
     }
 
+    // Saves chart as png
     public void saveChart(String name, JFreeChart chart, String folder) {
         try {
             // Puts file in specific folder within visualization
@@ -61,10 +62,11 @@ public class ChartVisualizer {
         }
     }
 
+    // Creates bar chart given map of values
     public JFreeChart createBarChart(String title, Map<String, Integer> values) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        // Sort descreasing order by count
+        // Sort columns by descreasing order of count
         List<Entry<String, Integer>> list = new ArrayList<>(values.entrySet());
         list.sort(Entry.<String, Integer>comparingByValue().reversed());
 
@@ -73,6 +75,13 @@ public class ChartVisualizer {
         }
 
         // Creating the chart
+        JFreeChart chart = formatBarChart(title, dataset);
+
+        return chart;
+    }
+
+    // Creates a bar chart given proper dataset
+    private JFreeChart formatBarChart(String title, DefaultCategoryDataset dataset) {
         JFreeChart chart = ChartFactory.createBarChart(
                 title,
                 null,
@@ -82,7 +91,6 @@ public class ChartVisualizer {
                 false,
                 true,
                 false);
-
 
         CategoryPlot plot = chart.getCategoryPlot();
         plot.setBackgroundPaint(Color.WHITE);
@@ -100,6 +108,13 @@ public class ChartVisualizer {
         // max bar width 10%
         renderer.setMaximumBarWidth(0.1);
 
+        formatBarAxes(plot, dataset);
+
+        return chart;
+    }
+
+    // Formats margins and bounds of bar chart axes
+    private void formatBarAxes(CategoryPlot plot, DefaultCategoryDataset dataset) {
         // Making bars closer together when theres less, currently max bar width is 10% of graph
         // So max space given is count * 10%
         CategoryAxis domainAxis = plot.getDomainAxis();
@@ -109,13 +124,12 @@ public class ChartVisualizer {
         domainAxis.setUpperMargin(Math.max(0.03, 0.5 - 0.05 * colCount));
         domainAxis.setCategoryMargin(0.05);
 
+        // If boundaries become inconsistent, pass through list
+        // For now, default behaviour seems to be mostly stable
 
-        // If boundaries become inconsistent, default seems to be mostly stable
         // ValueAxis rangeAxis = plot.getRangeAxis();
         // rangeAxis.setAutoRange(false);
         // rangeAxis.setLowerBound(0.0);
         // rangeAxis.setUpperBound(list.get(0).getValue() * 1.1);
-
-        return chart;
     }
 }
