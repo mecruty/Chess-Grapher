@@ -20,7 +20,9 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import java.awt.Color;
+import java.awt.Font;
 
 // Class for creating different kinds of charts
 public class ChartVisualizer {
@@ -111,6 +113,11 @@ public class ChartVisualizer {
         renderer.setSeriesPaint(0, new Color(79, 189, 189));
         // max bar width 10%
         renderer.setMaximumBarWidth(0.1);
+
+        // displays count of each value at end of bar
+        renderer.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+        renderer.setDefaultItemLabelsVisible(true);
+        renderer.setSeriesItemLabelFont(0, new Font("Calibri", Font.PLAIN, 12));
 
         formatBarAxes(plot, dataset);
 
