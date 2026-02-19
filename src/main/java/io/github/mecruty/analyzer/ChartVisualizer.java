@@ -24,6 +24,10 @@ import java.awt.Color;
 
 // Class for creating different kinds of charts
 public class ChartVisualizer {
+    private static final int CHART_WIDTH = 800;
+    private static final int CHART_HEIGHT = 600;
+    private static final int RENDER_SCALE_FACTOR = 3;
+
     private String username;
 
     public ChartVisualizer(String username) {
@@ -54,8 +58,8 @@ public class ChartVisualizer {
             // Renders at 2x resolution for much clearer image
             ChartUtils.writeScaledChartAsPNG(
                 new FileOutputStream(dest), 
-                chart, 800, 600, 
-                2, 2);
+                chart, CHART_WIDTH, CHART_HEIGHT, 
+                RENDER_SCALE_FACTOR, RENDER_SCALE_FACTOR);
 
         } catch (IOException e) {
             throw new RuntimeException("Saving chart failed");
