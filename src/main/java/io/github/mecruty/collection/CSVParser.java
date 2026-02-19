@@ -39,7 +39,9 @@ public class CSVParser {
 
         try {
             PrintWriter writer = new PrintWriter(file);
-            writer.print(csv);
+            if (csv != null) {
+                writer.print(csv);
+            }
             writer.close();
         } catch (FileNotFoundException e) {
             throw new RuntimeException("Writing to csv failed");
