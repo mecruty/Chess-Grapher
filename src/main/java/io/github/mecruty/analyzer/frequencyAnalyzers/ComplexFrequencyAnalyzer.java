@@ -1,5 +1,6 @@
 package io.github.mecruty.analyzer.frequencyAnalyzers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,15 +34,14 @@ public class ComplexFrequencyAnalyzer extends FrequencyAnalyzer {
                 break;
         }
 
+        List<String> filteredData = new ArrayList<>();
         for (int i = 0; i < filterData.size(); i++) {
-            if (!filterData.get(i).equals(filterValue)) {
-                filterData.remove(i);
-                data.remove(i);
-                i--;
+            if (filterData.get(i).equals(filterValue)) {
+                filteredData.add(data.get(i));
             }
         }
 
-        return Map.of(dataKey + "-FilteredBy-" + filterValue + "-For-" + filterKey, countFrequency(data));
+        return Map.of(dataKey + "-FilteredBy-" + filterValue + "-For-" + filterKey, countFrequency(filteredData));
     }
 
     private List<String> collectWinrate() {
