@@ -22,7 +22,7 @@ public class GameAnalyzer {
         // Creates the directory for the general visualization
         File dir = new File("./data/" + username + "/visualization");
         if (dir != null && !dir.exists()) {
-            dir.mkdir();
+            dir.mkdirs();
         }
     }
 
@@ -31,14 +31,6 @@ public class GameAnalyzer {
         analyzeComplexFrequency("time_class", "bullet", "result");
 
         System.out.println("Data analyzed!");
-    }
-
-    private void createFrequencyCharts(Map<String, Map<String, Integer>> result, String folder) {
-        for (String key : result.keySet()) {
-            JFreeChart chart = vis.createBarChart(key, result.get(key));
-            vis.saveChart(key, chart, folder);
-            vis.displayChart(chart);
-        }
     }
 
     public void analyzeAllSimpleFrequency() {
@@ -53,5 +45,14 @@ public class GameAnalyzer {
         Map<String, Map<String, Integer>> result = cfa.analyze(filterKey, filterValue, dataKey);
 
         createFrequencyCharts(result, "complex frequency");
+    }
+
+    // Creates, saves, and displays a frequency chart
+    private void createFrequencyCharts(Map<String, Map<String, Integer>> result, String folder) {
+        for (String key : result.keySet()) {
+            JFreeChart chart = vis.createBarChart(key, result.get(key));
+            vis.saveChart(key, chart, folder);
+            vis.displayChart(chart);
+        }
     }
 }

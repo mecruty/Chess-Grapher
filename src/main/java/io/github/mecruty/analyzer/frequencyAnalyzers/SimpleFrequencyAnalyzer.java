@@ -30,12 +30,14 @@ public class SimpleFrequencyAnalyzer extends FrequencyAnalyzer {
         return countFrequency(values);
     }
 
+    // captures only player results
     public Map<String, Integer> analyzeResult() {
         List<String> values = getColumn("result");
 
         return countFrequency(values);
     }
 
+    // captures results from both player and opponent
     public Map<String, Integer> analyzeResultDetailed() {
         List<String> values = getColumn("result");
 
@@ -54,6 +56,7 @@ public class SimpleFrequencyAnalyzer extends FrequencyAnalyzer {
         return countFrequency(values);
     }
 
+    // eco is opening
     public Map<String, Integer> analyzeEco() {
         List<String> values = getColumn("eco");
 
