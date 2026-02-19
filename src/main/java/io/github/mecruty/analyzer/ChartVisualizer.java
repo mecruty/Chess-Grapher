@@ -1,7 +1,10 @@
 package io.github.mecruty.analyzer;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -11,8 +14,13 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
-//import org.jfree.chart.plot.PiePlot;
-import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.StandardBarPainter;
+import org.jfree.data.category.DefaultCategoryDataset;
+import java.awt.Color;
 
 // Class for creating different kinds of charts
 public class ChartVisualizer {
@@ -39,39 +47,74 @@ public class ChartVisualizer {
             // Creates all directories for data
             File dir = dest.getParentFile();
             if (dir != null && !dir.exists()) {
-                dir.mkdir();
+                dir.mkdirs();
             }
 
-            ChartUtils.saveChartAsPNG(dest, chart, 640, 480);
+            // Renders at 2x resolution for much clearer image
+            ChartUtils.writeScaledChartAsPNG(
+                new FileOutputStream(dest), 
+                chart, 800, 600, 
+                2, 2);
+
         } catch (IOException e) {
             throw new RuntimeException("Saving chart failed");
         }
     }
 
-    public JFreeChart createPieChart(String title, Map<String, Integer> values) {
-        DefaultPieDataset<String> dataset = new DefaultPieDataset<>();
+    public JFreeChart createBarChart(String title, Map<String, Integer> values) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        // Find total sum of values to calculate percentage
-        double total = 0;
-        for (int value : values.values()) {
-            total += value;
-        }
+        // Sort descreasing order by count
+        List<Entry<String, Integer>> list = new ArrayList<>(values.entrySet());
+        list.sort(Entry.<String, Integer>comparingByValue().reversed());
 
-        for (Entry<String, Integer> value : values.entrySet()) {
-            dataset.setValue(value.getKey(), value.getValue() / total);
+        for (Entry<String, Integer> value : list) {
+            dataset.addValue(value.getValue(), "Result", value.getKey());
         }
 
         // Creating the chart
-        JFreeChart chart = ChartFactory.createPieChart(
+        JFreeChart chart = ChartFactory.createBarChart(
                 title,
+                null,
+                "Count",
                 dataset,
-                true,
+                PlotOrientation.HORIZONTAL,
+                false,
                 true,
                 false);
 
-        // // Removes the labels (look weird)
-        // PiePlot plot = (PiePlot) chart.getPlot();
-        // plot.setLabelGenerator(null);
+
+        CategoryPlot plot = chart.getCategoryPlot();
+        plot.setBackgroundPaint(Color.WHITE);
+        plot.setOutlineVisible(false);
+        
+        // gridlines light grey
+        plot.setRangeGridlinePaint(new Color(200, 200, 200)); 
+        plot.setRangeGridlinesVisible(true);
+
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        renderer.setBarPainter(new StandardBarPainter());
+        renderer.setShadowVisible(false);
+        // random cyan I liked
+        renderer.setSeriesPaint(0, new Color(79, 189, 189));
+        // max bar width 10%
+        renderer.setMaximumBarWidth(0.1);
+
+        // Making bars closer together when theres less, currently max bar width is 10% of graph
+        // So max space given is count * 10%
+        CategoryAxis domainAxis = plot.getDomainAxis();
+
+        int colCount = dataset.getColumnCount();
+        domainAxis.setLowerMargin(Math.max(0.03, 0.5 - 0.05 * colCount));
+        domainAxis.setUpperMargin(Math.max(0.03, 0.5 - 0.05 * colCount));
+        domainAxis.setCategoryMargin(0.05);
+
+
+        // If boundaries become inconsistent, default seems to be mostly stable
+        // ValueAxis rangeAxis = plot.getRangeAxis();
+        // rangeAxis.setAutoRange(false);
+        // rangeAxis.setLowerBound(0.0);
+        // rangeAxis.setUpperBound(list.get(0).getValue() * 1.1);
 
         return chart;
     }

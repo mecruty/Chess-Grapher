@@ -35,7 +35,7 @@ public class GameAnalyzer {
 
     private void createFrequencyCharts(Map<String, Map<String, Integer>> result, String folder) {
         for (String key : result.keySet()) {
-            JFreeChart chart = vis.createPieChart(key, result.get(key));
+            JFreeChart chart = vis.createBarChart(key, result.get(key));
             vis.saveChart(key, chart, folder);
             vis.displayChart(chart);
         }
