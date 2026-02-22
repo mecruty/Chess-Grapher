@@ -24,21 +24,21 @@ public class SimpleFrequencyAnalyzer extends FrequencyAnalyzer {
         return analysis;
     }
 
-    public Map<String, Integer> analyzeRules() {
+    private Map<String, Integer> analyzeRules() {
         List<String> values = getColumn("rules");
 
         return countFrequency(values);
     }
 
     // captures only player results
-    public Map<String, Integer> analyzeResult() {
+    private Map<String, Integer> analyzeResult() {
         List<String> values = getColumn("result");
 
         return countFrequency(values);
     }
 
     // captures results from both player and opponent
-    public Map<String, Integer> analyzeResultDetailed() {
+    private Map<String, Integer> analyzeResultDetailed() {
         List<String> values = getColumn("result");
 
         // Values for the opponent
@@ -56,8 +56,10 @@ public class SimpleFrequencyAnalyzer extends FrequencyAnalyzer {
         return countFrequency(values);
     }
 
+    // too many categories
+    @SuppressWarnings("unused")
     // eco is opening
-    public Map<String, Integer> analyzeEco() {
+    private Map<String, Integer> analyzeEco() {
         List<String> values = getColumn("eco");
 
         // Removes the "https://www.chess.com/openings/" from each opening
@@ -74,19 +76,19 @@ public class SimpleFrequencyAnalyzer extends FrequencyAnalyzer {
         return countFrequency(values);
     }
 
-    public Map<String, Integer> analyzeColour() {
+    private Map<String, Integer> analyzeColour() {
         List<String> values = getColumn("colour");
         
         return countFrequency(values);
     }
 
-    public Map<String, Integer> analyzeTimeControl() {
+    private Map<String, Integer> analyzeTimeControl() {
         List<String> values = getColumn("time_control");
         
         return countFrequency(values);
     }
 
-    public Map<String, Integer> analyzeTimeClass() {
+    private Map<String, Integer> analyzeTimeClass() {
         List<String> values = getColumn("time_class");
         
         return countFrequency(values);
