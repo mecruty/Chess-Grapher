@@ -29,7 +29,7 @@ public class GameAnalyzer {
     public void analyzeAll() {
         analyzeAllSimpleFrequency();
         // example for now
-        analyzeComplexFrequency("time_class", "bullet", "result");
+        analyzeComplexFrequency("time_class", "bullet");
 
         System.out.println("Data analyzed!");
     }
@@ -41,9 +41,9 @@ public class GameAnalyzer {
         createFrequencyCharts(result, "simple frequency");
     }
 
-    public void analyzeComplexFrequency(String filterKey, String filterValue, String dataKey) {
+    public void analyzeComplexFrequency(String filterKey, String filterValue) {
         ComplexFrequencyAnalyzer cfa = new ComplexFrequencyAnalyzer(csv);
-        Map<String, Map<String, Integer>> result = cfa.analyze(filterKey, filterValue, dataKey);
+        Map<String, Map<String, Integer>> result = cfa.analyze(filterKey, filterValue);
 
         createFrequencyCharts(result, "complex frequency");
     }

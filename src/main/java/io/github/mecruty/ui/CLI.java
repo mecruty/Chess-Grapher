@@ -74,8 +74,6 @@ public class CLI {
         String filterKey = sc.nextLine();
         System.out.println("Choose a specific outcome to filter by:");
         String filterValue = sc.nextLine();
-        System.out.println("Choose a variable to graph with the filter:");
-        String dataKey = sc.nextLine();
-        ga.analyzeComplexFrequency(filterKey, filterValue, dataKey);
+        ga.analyzeComplexFrequency(filterKey, filterValue);
     }
 }

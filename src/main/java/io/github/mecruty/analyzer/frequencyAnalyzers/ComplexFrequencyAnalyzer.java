@@ -10,7 +10,7 @@ public class ComplexFrequencyAnalyzer extends FrequencyAnalyzer {
         super(csv);
     }
 
-    public Map<String, Map<String, Integer>> analyze(String filterKey, String filterValue, String dataKey) {
+    public Map<String, Map<String, Integer>> analyze(String filterKey, String filterValue) {
         List<String> filterData;
         List<String> data;
 
@@ -21,19 +21,6 @@ public class ComplexFrequencyAnalyzer extends FrequencyAnalyzer {
                 break;
         }
 
-        // extra cases
-        switch (dataKey) {
-            case "winrate":
-                data = collectWinrate();
-                break;
-            case "result_detailed":
-                data = collectResultDetailed();
-                break;
-            default:
-                data = getColumn(dataKey);
-                break;
-        }
-
         List<String> filteredData = new ArrayList<>();
         for (int i = 0; i < filterData.size(); i++) {
             if (filterData.get(i).equals(filterValue)) {
@@ -41,7 +28,7 @@ public class ComplexFrequencyAnalyzer extends FrequencyAnalyzer {
             }
         }
 
-        return Map.of(dataKey + "-FilteredByWhen-" + filterKey + "-Is-" + filterValue + "-ComplexFrequency", countFrequency(filteredData));
+        return Map.of("COLUMN" + "-FilteredByWhen-" + filterKey + "-Is-" + filterValue + "-ComplexFrequency", countFrequency(filteredData));
     }
 
     private List<String> collectWinrate() {
