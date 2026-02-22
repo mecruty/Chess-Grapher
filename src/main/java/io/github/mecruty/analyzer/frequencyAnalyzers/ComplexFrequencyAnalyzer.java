@@ -1,6 +1,7 @@
 package io.github.mecruty.analyzer.frequencyAnalyzers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,43 +12,43 @@ public class ComplexFrequencyAnalyzer extends FrequencyAnalyzer {
     }
 
     public Map<String, Map<String, Integer>> analyze(String filterKey, String filterValue) {
-        List<String> filterData;
-        List<String> data;
+        List<List<String>> filteredData = new ArrayList<>();
 
-        // switch if needed in future
-        switch (filterKey) {
-            default:
-                filterData = getColumn(filterKey);
-                break;
-        }
 
-        List<String> filteredData = new ArrayList<>();
-        for (int i = 0; i < filterData.size(); i++) {
-            if (filterData.get(i).equals(filterValue)) {
-                filteredData.add(data.get(i));
-            }
-        }
-
-        return Map.of("COLUMN" + "-FilteredByWhen-" + filterKey + "-Is-" + filterValue + "-ComplexFrequency", countFrequency(filteredData));
-    }
-
-    private List<String> collectWinrate() {
-        List<String> data = getColumn("result");
+        // Find column of key to be filtered
+        int index = getRow(0).indexOf(filterKey);
+        if (index == -1) throw new RuntimeException("Filter variable does not exist");
         
-        for (String value : data) {
-            switch (value) {
-                case "checkmate", "resigned":
-                    
-                    break;
+        // Add column names
+        filteredData.add(getRow(0));
+
+        for (int i = 1; i < csv.size(); i++) {
+            if (getRow(i).get(index).equals(filterValue)) {
+                filteredData.add(getRow(i));
             }
         }
 
-        return null;
-        //TODO
+        if (filteredData.size() == 1) throw new RuntimeException("Filter value never appears");
+
+        // with new data
+        SimpleFrequencyAnalyzer sfa = new SimpleFrequencyAnalyzer(filteredData);
+
+        return renameComplexFrequencies(filterKey, filterValue, sfa.analyzeAll());
     }
 
-    private List<String> collectResultDetailed() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'collectResultDetailed'");
+    // renames xxx-Frequency into xxx-FilteredByWhen-filterKey-Is-filterValue-ComplexFrequency
+    private Map<String, Map<String, Integer>> renameComplexFrequencies(String filterKey, String filterValue, Map<String, Map<String, Integer>> sf) {
+        Map<String, Map<String, Integer>> renamed = new HashMap<>();
+
+        for (Map.Entry<String, Map<String, Integer>> entry : sf.entrySet()) {
+            String key = entry.getKey();
+            key = key.substring(0, key.indexOf("-"));
+
+            key += "-FilteredByWhen-" + filterKey + "-Is-" + filterValue + "-ComplexFrequency";
+
+            renamed.put(key, entry.getValue());
+        }
+
+        return renamed;
     }
 }

@@ -23,6 +23,12 @@ public class FrequencyAnalyzer {
         return values;
     }
 
+    // Mainly for clarity
+    // Note: 0th row is column names
+    protected List<String> getRow(int index) {
+        return csv.get(index);
+    }
+
     protected Map<String, Integer> countFrequency(List<String> values) {
         Map<String, Integer> analysis = new HashMap<String, Integer>();
         for (String value : values) {
