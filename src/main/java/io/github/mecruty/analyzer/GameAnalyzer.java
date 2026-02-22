@@ -92,7 +92,7 @@ public class GameAnalyzer {
             case "result":
                 name = "Game Result";
                 break;
-            case "resultDetailed":
+            case "result_detailed":
                 name = "Detailed Game Result";
                 break;
             case "eco":
@@ -101,10 +101,10 @@ public class GameAnalyzer {
             case "colour":
                 name = "Colour";
                 break;
-            case "timeControl":
+            case "time_control":
                 name = "Time Control";
                 break;
-            case "timeClass":
+            case "time_class":
                 name = "Time Class";
                 break;
             default:

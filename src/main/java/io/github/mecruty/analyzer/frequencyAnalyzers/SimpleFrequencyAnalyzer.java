@@ -15,11 +15,11 @@ public class SimpleFrequencyAnalyzer extends FrequencyAnalyzer {
 
         analysis.put("rules-Frequency", analyzeRules());
         analysis.put("result-Frequency", analyzeResult());
-        analysis.put("resultDetailed-Frequency", analyzeResultDetailed());
+        analysis.put("result_detailed-Frequency", analyzeResultDetailed());
         //analysis.put("eco-Frequency", analyzeEco());
         analysis.put("colour-Frequency", analyzeColour());
-        analysis.put("timeControl-Frequency", analyzeTimeControl());
-        analysis.put("timeClass-Frequency", analyzeTimeClass());
+        analysis.put("time_control-Frequency", analyzeTimeControl());
+        analysis.put("time_class-Frequency", analyzeTimeClass());
 
         return analysis;
     }

@@ -14,6 +14,7 @@ public class ComplexFrequencyAnalyzer extends FrequencyAnalyzer {
     public Map<String, Map<String, Integer>> analyze(String filterKey, String filterValue) {
         List<List<String>> filteredData = new ArrayList<>();
 
+        if (filterKey.equals("results_detailed")); // TODO currently will fail
 
         // Find column of key to be filtered
         int index = getRow(0).indexOf(filterKey);
