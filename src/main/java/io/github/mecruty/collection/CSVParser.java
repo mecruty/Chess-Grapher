@@ -48,7 +48,7 @@ public class CSVParser {
         }
     }
 
-    public List<List<String>> loadCSV() {
+    public List<List<String>> loadCSV() throws FileNotFoundException, IOException {
         List<List<String>> csv = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(destination))) {
             String line;
@@ -56,10 +56,7 @@ public class CSVParser {
                 String[] values = line.split(",");
                 csv.add(Arrays.asList(values));
             }
-        } catch (IOException e) {
-            throw new RuntimeException("Loading csv failed");
         }
-
         return csv;
     }
 
