@@ -58,7 +58,7 @@ public class CLI {
             } else {
                 if (simple) ga.analyzeAllSimpleFrequency();
                 if (complex) runComplexFrequencyAnalysis(ga);
-                if (regression); // TODO
+                if (regression); // TODO do lol
             }
         } catch (FileNotFoundException e) {
             System.out.println("Error: This player's data does not exist");

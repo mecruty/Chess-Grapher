@@ -13,13 +13,13 @@ public class SimpleFrequencyAnalyzer extends FrequencyAnalyzer {
     public Map<String, Map<String, Integer>> analyzeAll() {
         Map<String, Map<String, Integer>> analysis = new HashMap<>();
 
-        analysis.put("rulesFrequency", analyzeRules());
-        analysis.put("resultFrequency", analyzeResult());
-        analysis.put("resultDetailedFrequency", analyzeResultDetailed());
-        //analysis.put("ecoFrequency", analyzeEco());
-        analysis.put("colourFrequency", analyzeColour());
-        analysis.put("timeControlFrequency", analyzeTimeControl());
-        analysis.put("timeClassFrequency", analyzeTimeClass());
+        analysis.put("rules-Frequency", analyzeRules());
+        analysis.put("result-Frequency", analyzeResult());
+        analysis.put("resultDetailed-Frequency", analyzeResultDetailed());
+        //analysis.put("eco-Frequency", analyzeEco());
+        analysis.put("colour-Frequency", analyzeColour());
+        analysis.put("timeControl-Frequency", analyzeTimeControl());
+        analysis.put("timeClass-Frequency", analyzeTimeClass());
 
         return analysis;
     }
