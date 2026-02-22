@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// Essentially the things that could be measured with pie charts
+// Essentially the things that could be measured with bar charts
 public class SimpleFrequencyAnalyzer extends FrequencyAnalyzer {
     public SimpleFrequencyAnalyzer(List<List<String>> csv) {
         super(csv);

@@ -41,7 +41,7 @@ public class ComplexFrequencyAnalyzer extends FrequencyAnalyzer {
             }
         }
 
-        return Map.of(dataKey + "-FilteredBy-" + filterValue + "-For-" + filterKey + "-ComplexFrequency", countFrequency(filteredData));
+        return Map.of(dataKey + "-FilteredByWhen-" + filterKey + "-Is-" + filterValue + "-ComplexFrequency", countFrequency(filteredData));
     }
 
     private List<String> collectWinrate() {

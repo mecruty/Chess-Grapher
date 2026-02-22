@@ -51,9 +51,66 @@ public class GameAnalyzer {
     // Creates, saves, and displays a frequency chart
     private void createFrequencyCharts(Map<String, Map<String, Integer>> result, String folder) {
         for (String key : result.keySet()) {
-            JFreeChart chart = vis.createBarChart(key, result.get(key));
-            vis.saveChart(key, chart, folder);
+            String name = fixChartName(key);
+
+            JFreeChart chart = vis.createBarChart(name, result.get(key));
+            vis.saveChart(name, chart, folder);
             vis.displayChart(chart);
         }
+    }
+
+    // Fixes names of all charts
+    private String fixChartName(String key) {
+        String[] split = key.split("-");
+        String name = "";
+
+        if (split[1].equals("Frequency")) {
+            // simple frequency
+            name = "Frequency of ";
+            name += fixColumnName(split[0]);
+        } else if (split[5].equals("ComplexFrequency")) {
+            // complex frequency
+            name = "Frequency of ";
+            name += fixColumnName(split[0]);
+            name += " when ";
+            name += fixColumnName(split[2]);
+            name += " is ";
+            name += split[4];
+        }
+
+        return name;
+    }
+
+    // Replaces column with readable name
+    private String fixColumnName(String col) {
+        String name = "";
+
+        switch (col) {
+            case "rules":
+                name = "Ruleset";
+                break;
+            case "result":
+                name = "Game Result";
+                break;
+            case "resultDetailed":
+                name = "Detailed Game Result";
+                break;
+            case "eco":
+                name = "Eco";
+                break;
+            case "colour":
+                name = "Colour";
+                break;
+            case "timeControl":
+                name = "Time Control";
+                break;
+            case "timeClass":
+                name = "Time Class";
+                break;
+            default:
+                throw new RuntimeException("Unexpected chart name:" + name);
+        }
+
+        return name;
     }
 }
