@@ -62,7 +62,7 @@ public class CLI {
             }
         } catch (FileNotFoundException e) {
             System.out.println("Error: This player's data does not exist");
-            System.out.println("Try collecting player data with \"analyze\" first");
+            System.out.println("Try collecting player data with \"collect\" first");
         } catch (IOException e) {
             System.out.println("Error: Data could not be analyzed");
             System.out.println("Try recollecting player data");
