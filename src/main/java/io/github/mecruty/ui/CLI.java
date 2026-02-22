@@ -27,7 +27,7 @@ public class CLI {
         GamesCollector gc = new GamesCollector(username);
         CSVParser csvp = new CSVParser(username);
         csvp.saveJSONToCSV(gc.collectAll());
-        System.out.println("Sucessfully collected and updated" + username + "games.");
+        System.out.println("Sucessfully collected and updated " + username + "\'s games."); 
     }
     
     @Command(name = "analyze", description = "Analyzes game data from player, data must be already collected")
