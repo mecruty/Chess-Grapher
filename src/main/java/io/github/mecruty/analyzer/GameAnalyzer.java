@@ -28,6 +28,7 @@ public class GameAnalyzer {
 
     public void analyzeAll() {
         analyzeAllSimpleFrequency();
+        // example for now
         analyzeComplexFrequency("time_class", "bullet", "result");
 
         System.out.println("Data analyzed!");
