@@ -18,31 +18,38 @@
 
   <dependencies>
     <dependency>
-        <groupId>org.json</groupId>
-        <artifactId>json</artifactId>
-        <version>20250517</version>
-        <scope>compile</scope>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20250517</version>
+      <scope>compile</scope>
     </dependency>
 
     <dependency>
-        <groupId>org.jfree</groupId>
-        <artifactId>jfreechart</artifactId>
-        <version>1.5.6</version>
-        <scope>compile</scope>
+      <groupId>org.jfree</groupId>
+      <artifactId>jfreechart</artifactId>
+      <version>1.5.6</version>
+      <scope>compile</scope>
     </dependency>
 
     <dependency>
-    <groupId>info.picocli</groupId>
-    <artifactId>picocli</artifactId>
-    <version>4.7.6</version>
+      <groupId>info.picocli</groupId>
+      <artifactId>picocli</artifactId>
+      <version>4.7.6</version>
     </dependency>
 
     <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter</artifactId>
-        <version>5.10.2</version>
-        <scope>test</scope>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.10.2</version>
+      <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>com.github.haifengl</groupId>
+      <artifactId>smile-core</artifactId>
+      <version>3.0.2</version>
+    </dependency>
+
   </dependencies>
 
   <build>
