@@ -5,6 +5,8 @@ data/
 
 .vscode
 
+.jar
+
 # maven
 target/
 .settings/
