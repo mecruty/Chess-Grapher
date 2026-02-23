@@ -1,32 +1,14 @@
 package io.github.mecruty.analyzer.frequencyAnalyzers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FrequencyAnalyzer {
-    protected List<List<String>> csv;
+import io.github.mecruty.analyzer.Analyzer;
 
+public class FrequencyAnalyzer extends Analyzer {
     public FrequencyAnalyzer(List<List<String>> csv) {
-        this.csv = csv;
-    }
-
-    protected List<String> getColumn(String name) {
-        // Collect values
-        int index = csv.get(0).indexOf(name);
-        List<String> values = new ArrayList<>();
-        csv.forEach((game) -> values.add(game.get(index)));
-
-        // Remove the first row (column names)
-        values.remove(0);
-        return values;
-    }
-
-    // Mainly for clarity
-    // Note: 0th row is column names
-    protected List<String> getRow(int index) {
-        return csv.get(index);
+        super(csv);
     }
 
     protected Map<String, Integer> countFrequency(List<String> values) {
