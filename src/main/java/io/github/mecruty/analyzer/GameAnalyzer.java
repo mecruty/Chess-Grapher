@@ -8,6 +8,7 @@ import org.jfree.chart.JFreeChart;
 
 import io.github.mecruty.analyzer.frequencyAnalyzers.ComplexFrequencyAnalyzer;
 import io.github.mecruty.analyzer.frequencyAnalyzers.SimpleFrequencyAnalyzer;
+import io.github.mecruty.analyzer.regressionAnalyzers.LogisticRegressionAnalyzer;
 
 public class GameAnalyzer {
     private String username;
@@ -30,6 +31,10 @@ public class GameAnalyzer {
         analyzeAllSimpleFrequency();
         // example for now
         analyzeComplexFrequency("time_class", "bullet");
+
+        LogisticRegressionAnalyzer lga = new LogisticRegressionAnalyzer(csv);
+        lga.analyze();
+        System.out.println(lga.score());
 
         System.out.println("Data analyzed!");
     }
