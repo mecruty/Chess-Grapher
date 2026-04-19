@@ -47,6 +47,7 @@ public class GameAnalyzer {
 
         // Essentially Pearson's R
         System.out.println("Point Biserial: " + result);
+        // TODO logging actually goes here
     }
 
     public void compareCorrelations(List<List<String>> otherCsv) {
@@ -56,7 +57,7 @@ public class GameAnalyzer {
         System.out.println(result[0] + " " + result[1]);
     }
 
-    private void analyzeRegressionWeights() {
+    public void analyzeRegressionWeights() {
         LogisticRegressionAnalyzer lga = new LogisticRegressionAnalyzer(csv);
         Map<String, Double> result = lga.analyze();
 

@@ -39,6 +39,7 @@ public class LogisticRegressionAnalyzer extends Analyzer {
 
         for (int i = 0; i < featureNames.length; i++) {
             coefficientsMap.put(featureNames[i], modelCoefficients[i]);
+            // TODO log to file instead of print
             System.out.println(featureNames[i] + " " + modelCoefficients[i]);
         }
         

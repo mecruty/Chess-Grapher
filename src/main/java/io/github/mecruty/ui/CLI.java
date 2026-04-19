@@ -61,7 +61,7 @@ public class CLI {
             } else {
                 if (simple) ga.analyzeAllSimpleFrequency();
                 if (complex) runComplexFrequencyAnalysis(ga);
-                if (regression); // TODO do lol
+                if (regression) ga.analyzeRegressionWeights();
             }
         } catch (FileNotFoundException e) {
             System.out.println("Error: This player's data does not exist");
@@ -80,7 +80,7 @@ public class CLI {
         ga.analyzeComplexFrequency(filterKey, filterValue);
     }
 
-    @Command(name = "correlate", description = "Finds correlation between rating difference and win/loss. >0.3 is considered very good")
+    @Command(name = "correlate", description = "Finds correlation between rating difference and win/loss. >0.3 is considered very well correlated")
     void summarize(
         @Parameters(index = "0", description = "Chess.com username of selected player")
         String username,
