@@ -15,11 +15,11 @@ import picocli.CommandLine.Parameters;
 public class CLI {
     static Scanner sc = new Scanner(System.in);
 
-    @Parameters(index = "0", description = "Chess.com username of selected player")
-    static private String username;
-
     @Command(name = "collect", description = "Collects and updates any missing game data from player")
     void collect(
+        @Parameters(index = "0", description = "Chess.com username of selected player")
+        String username,
+
         @Option(names = {"-a", "--all"}, description = "Collects ALL game data from player (May take several minutes)")
         boolean all
     ) {
@@ -29,9 +29,12 @@ public class CLI {
         csvp.saveJSONToCSV(gc.collectAll());
         System.out.println("Sucessfully collected and updated " + username + "\'s games."); 
     }
-    
+
     @Command(name = "analyze", description = "Analyzes game data from player, data must be already collected")
     void analyze(
+        @Parameters(index = "0", description = "Chess.com username of selected player")
+        String username,
+
         @Option(names = {"-s", "--simple"}, description = "Runs simple frequency graphs")
         boolean simple,
 
@@ -75,5 +78,40 @@ public class CLI {
         System.out.println("Choose a specific outcome to filter by:");
         String filterValue = sc.nextLine();
         ga.analyzeComplexFrequency(filterKey, filterValue);
+    }
+
+    @Command(name = "correlate", description = "Finds correlation between rating difference and win/loss. >0.3 is considered very good")
+    void summarize(
+        @Parameters(index = "0", description = "Chess.com username of selected player")
+        String username,
+
+        @Parameters(index = "1", arity = "0..1", description = "Second username (required for comparison)")
+        String username2,
+
+        @Option(names = {"-c", "--compare"}, description = "Runs all analyses")
+        boolean compare
+    ) {
+        CSVParser csvp = new CSVParser(username);
+        GameAnalyzer ga;
+        try {
+            ga = new GameAnalyzer(username, csvp.loadCSV());
+
+            if (!compare) {
+                ga.analyzeDiffCorrelation();
+            } else {
+                if (username2 == null) {
+                    System.out.println("Second username needed");
+                }
+
+                CSVParser csvp2 = new CSVParser(username2);
+                ga.compareCorrelations(csvp2.loadCSV());
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: This player's data does not exist");
+            System.out.println("Try collecting player data with \"collect\" first");
+        } catch (IOException e) {
+            System.out.println("Error: Data could not be analyzed");
+            System.out.println("Try recollecting player data");
+        }
     }
 }
