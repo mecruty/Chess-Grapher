@@ -41,11 +41,19 @@ public class GameAnalyzer {
         System.out.println("Data analyzed!");
     }
 
-    private void analyzeDiffCorrelation() {
+    public void analyzeDiffCorrelation() {
         CorrelationAnalyzer ca = new CorrelationAnalyzer(csv);
         double result = ca.analyze();
 
-        System.out.println("Pearson's R: " + result);
+        // Essentially Pearson's R
+        System.out.println("Point Biserial: " + result);
+    }
+
+    public void compareCorrelations(List<List<String>> otherCsv) {
+        CorrelationAnalyzer ca = new CorrelationAnalyzer(csv);
+        double[] result = ca.compare(otherCsv);
+
+        System.out.println(result[0] + " " + result[1]);
     }
 
     private void analyzeRegressionWeights() {

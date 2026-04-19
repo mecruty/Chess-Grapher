@@ -24,7 +24,7 @@ public class CorrelationAnalyzer extends Analyzer {
         return correlations;
     }
 
-    // Calculates pearsons r
+    // Calculates pearsons r (or in this case, point biserial, as win/loss is binary)
     private double findCorrelation(List<List<String>> data) {
         int rowCount = data.size() - 1;
         if (rowCount <= 1) return 0.0;
