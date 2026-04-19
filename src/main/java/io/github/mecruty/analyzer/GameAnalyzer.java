@@ -1,6 +1,7 @@
 package io.github.mecruty.analyzer;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +34,8 @@ public class GameAnalyzer {
         analyzeComplexFrequency("time_class", "bullet");
 
         LogisticRegressionAnalyzer lga = new LogisticRegressionAnalyzer(csv);
-        lga.analyze();
+        Map<String, Double> result = lga.analyze();
+        createRegressionChart(result, "regression");
         System.out.println(lga.score());
 
         System.out.println("Data analyzed!");
@@ -56,12 +58,29 @@ public class GameAnalyzer {
     // Creates, saves, and displays a frequency chart
     private void createFrequencyCharts(Map<String, Map<String, Integer>> result, String folder) {
         for (String key : result.keySet()) {
-            String name = fixChartName(key);
-
-            JFreeChart chart = vis.createBarChart(name, result.get(key));
-            vis.saveChart(name, chart, folder);
-            vis.displayChart(chart);
+            makeBarChart(key, result.get(key), folder, "Count");
         }
+    }
+
+    // Creates, saves, and displays weights from regression
+    // 2 decimals of accuracy
+    private void createRegressionChart(Map<String, Double> result, String folder) {
+        Map<String, Integer> resultScaled = new HashMap<>();
+
+        for (String key : result.keySet()) {
+            resultScaled.put(key, (int) (result.get(key) * 100));
+        }
+
+        makeBarChart("Regression", resultScaled, folder, "Weight");
+    }
+
+    // Creates, saves, and displays a general bar graph
+    private void makeBarChart(String rawName, Map<String, Integer> map, String folder, String rowName) {
+        String name = fixChartName(rawName);
+
+        JFreeChart chart = vis.createBarChart(name, map, rowName);
+        vis.saveChart(name, chart, folder);
+        vis.displayChart(chart);
     }
 
     // Fixes names of all charts
@@ -69,7 +88,10 @@ public class GameAnalyzer {
         String[] split = key.split("-");
         String name = "";
 
-        if (split[1].equals("Frequency")) {
+        if (split[0].equals("Regression")) {
+            // regression
+            name = "Regression Weights";
+        } else if (split[1].equals("Frequency")) {
             // simple frequency
             name = "Frequency of ";
             name += fixColumnName(split[0]);

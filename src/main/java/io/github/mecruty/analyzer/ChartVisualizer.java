@@ -69,7 +69,7 @@ public class ChartVisualizer {
     }
 
     // Creates bar chart given map of values
-    public JFreeChart createBarChart(String title, Map<String, Integer> values) {
+    public JFreeChart createBarChart(String title, Map<String, Integer> values, String rowName) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
         // Sort columns by descreasing order of count
@@ -81,17 +81,17 @@ public class ChartVisualizer {
         }
 
         // Creating the chart
-        JFreeChart chart = formatBarChart(title, dataset);
+        JFreeChart chart = formatBarChart(title, dataset, rowName);
 
         return chart;
     }
 
     // Creates a bar chart given proper dataset
-    private JFreeChart formatBarChart(String title, DefaultCategoryDataset dataset) {
+    private JFreeChart formatBarChart(String title, DefaultCategoryDataset dataset, String rowName) {
         JFreeChart chart = ChartFactory.createBarChart(
                 title,
                 null,
-                "Count",
+                rowName,
                 dataset,
                 PlotOrientation.HORIZONTAL,
                 false,
