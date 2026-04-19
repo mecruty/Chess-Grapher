@@ -100,7 +100,8 @@ public class CLI {
                 ga.analyzeDiffCorrelation();
             } else {
                 if (username2 == null) {
-                    System.out.println("Second username needed");
+                    System.out.println("Error: Second username needed");
+                    return;
                 }
 
                 CSVParser csvp2 = new CSVParser(username2);

@@ -19,7 +19,7 @@ public class CorrelationAnalyzer extends Analyzer {
 
     // returns self correlation first
     public double[] compare(List<List<String>> otherCsv) {
-        double[] correlations = {findCorrelation(csv), findCorrelation(csv)};
+        double[] correlations = {findCorrelation(csv), findCorrelation(otherCsv)};
 
         return correlations;
     }
