@@ -19,14 +19,20 @@ public class CorrelationAnalyzer extends Analyzer {
 
     // returns self correlation first
     public double[] compare(List<List<String>> otherCsv) {
+        List<List<String>> currCsv = csv;
         double[] correlations = {findCorrelation(csv), findCorrelation(otherCsv)};
+        csv = currCsv;
 
         return correlations;
     }
 
     // Calculates pearsons r (or in this case, point biserial, as win/loss is binary)
     private double findCorrelation(List<List<String>> data) {
-        int rowCount = data.size() - 1;
+        // could be simplified
+        // however, this benefits off of superclass
+        csv = data;
+
+        int rowCount = csv.size() - 1;
         if (rowCount <= 1) return 0.0;
 
         double[] ratingDiff = new double[rowCount];
