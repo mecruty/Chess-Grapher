@@ -85,7 +85,7 @@ public class LogisticRegressionAnalyzer extends Analyzer {
 
         for (int i = 0; i < rowCount; i++) {
             x[i][0] = rating[i];
-            x[i][1] = rating[i] - oppRating[i];
+            x[i][1] = rating[i] - oppRating[i]; // rating difference
             x[i][2] = rated[i];
             x[i][3] = black[i];
             
@@ -99,6 +99,8 @@ public class LogisticRegressionAnalyzer extends Analyzer {
         }
     }
 
+    // Implementing own one hot encoding
+    // Smile a bit unstable
     private int fillOHE(double[] row, int startCol, String categoryName, String value) {
         List<String> cats = categoriesMap.get(categoryName);
         for (int i = 0; i < cats.size(); i++) {

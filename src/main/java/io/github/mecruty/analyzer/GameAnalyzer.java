@@ -9,6 +9,7 @@ import org.jfree.chart.JFreeChart;
 
 import io.github.mecruty.analyzer.frequencyAnalyzers.ComplexFrequencyAnalyzer;
 import io.github.mecruty.analyzer.frequencyAnalyzers.SimpleFrequencyAnalyzer;
+import io.github.mecruty.analyzer.regressionAnalyzers.CorrelationAnalyzer;
 import io.github.mecruty.analyzer.regressionAnalyzers.LogisticRegressionAnalyzer;
 
 public class GameAnalyzer {
@@ -35,7 +36,16 @@ public class GameAnalyzer {
 
         analyzeRegressionWeights();
 
+        analyzeDiffCorrelation();
+
         System.out.println("Data analyzed!");
+    }
+
+    private void analyzeDiffCorrelation() {
+        CorrelationAnalyzer ca = new CorrelationAnalyzer(csv);
+        double result = ca.analyze();
+
+        System.out.println("Pearson's R: " + result);
     }
 
     private void analyzeRegressionWeights() {
