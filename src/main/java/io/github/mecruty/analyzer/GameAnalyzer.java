@@ -33,12 +33,17 @@ public class GameAnalyzer {
         // example for now
         analyzeComplexFrequency("time_class", "bullet");
 
-        LogisticRegressionAnalyzer lga = new LogisticRegressionAnalyzer(csv);
-        Map<String, Double> result = lga.analyze();
-        createRegressionChart(result, "regression");
-        System.out.println(lga.score());
+        analyzeRegressionWeights();
 
         System.out.println("Data analyzed!");
+    }
+
+    private void analyzeRegressionWeights() {
+        LogisticRegressionAnalyzer lga = new LogisticRegressionAnalyzer(csv);
+        Map<String, Double> result = lga.analyze();
+
+        createRegressionChart(result, "regression");
+        System.out.println("Regression Training Score: " + lga.score());
     }
 
     public void analyzeAllSimpleFrequency() {
