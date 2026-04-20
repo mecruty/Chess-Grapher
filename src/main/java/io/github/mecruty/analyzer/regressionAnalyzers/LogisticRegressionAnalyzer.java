@@ -10,6 +10,7 @@ import smile.data.DataFrame;
 import smile.data.transform.InvertibleColumnTransform;
 import smile.feature.transform.Standardizer;
 
+// Draws count as non wins
 public class LogisticRegressionAnalyzer extends Analyzer {
     private LogisticRegression.Binomial model;
     private InvertibleColumnTransform scaler;

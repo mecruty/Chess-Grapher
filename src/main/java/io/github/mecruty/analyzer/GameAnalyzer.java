@@ -41,9 +41,16 @@ public class GameAnalyzer {
         System.out.println("Data analyzed!");
     }
 
+    // default to 10 bins
     public void analyzeDiffCorrelation() {
+        analyzeDiffCorrelation(10);
+    }
+
+    public void analyzeDiffCorrelation(int numBins) {
         CorrelationAnalyzer ca = new CorrelationAnalyzer(csv);
         double result = ca.analyze();
+
+        createCorrelationChart(ca.histogram(numBins), "correlation");
 
         // Essentially Pearson's R
         System.out.println("Point Biserial: " + result);
@@ -87,15 +94,26 @@ public class GameAnalyzer {
     }
 
     // Creates, saves, and displays weights from regression
-    // 2 decimals of accuracy
+    // 3 decimals of accuracy
     private void createRegressionChart(Map<String, Double> result, String folder) {
+        Map<String, Integer> resultScaled = new HashMap<>();
+
+        for (String key : result.keySet()) {
+            resultScaled.put(key, (int) (result.get(key) * 1000));
+        }
+
+        makeBarChart("Regression", resultScaled, folder, "Weight");
+    }
+
+    // Creates, saves, and displays percentage winrates compared to rating diff
+    private void createCorrelationChart(Map<String, Double> result, String folder) {
         Map<String, Integer> resultScaled = new HashMap<>();
 
         for (String key : result.keySet()) {
             resultScaled.put(key, (int) (result.get(key) * 100));
         }
 
-        makeBarChart("Regression", resultScaled, folder, "Weight");
+        makeBarChart("Correlation-of-ratingDiff-and-winrate", resultScaled, folder, "Winrate (%)");
     }
 
     // Creates, saves, and displays a general bar graph
@@ -115,6 +133,8 @@ public class GameAnalyzer {
         if (split[0].equals("Regression")) {
             // regression
             name = "Regression Weights";
+        } else if (split[0].equals("Correlation")) {
+            name = "(Own. rating - Opp. rating) vs. Winrate";
         } else if (split[1].equals("Frequency")) {
             // simple frequency
             name = "Frequency of ";
