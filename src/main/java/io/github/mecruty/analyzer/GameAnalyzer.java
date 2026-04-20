@@ -1,10 +1,12 @@
 package io.github.mecruty.analyzer;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.jfree.chart.JFreeChart;
 
@@ -38,7 +40,7 @@ public class GameAnalyzer {
         analyzeComplexFrequency("time_class", "bullet");
 
         analyzeRegressionWeights();
-
+        // TODO put this in separate places
         analyzeDiffCorrelation();
 
         System.out.println("Data analyzed!");
@@ -75,6 +77,25 @@ public class GameAnalyzer {
         folder.delete();
     }
 
+    // saves text to selected folder
+    private void saveTextToFile(String text, String folder, String filename) {
+        File saveLocation = new File("./data/" + username + "/visualization/" + folder + "/" + filename + ".txt");
+
+        // create file if needed
+        File dir = saveLocation.getParentFile();
+        if (dir != null && !dir.exists()) {
+            dir.mkdirs();
+        }
+
+        try (PrintWriter writer = new PrintWriter(saveLocation)) {
+            if (text != null) {
+                writer.print(text);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Saving to file failed", e);
+        }
+    }
+
     // default to 10 bins
     public void analyzeDiffCorrelation() {
         analyzeDiffCorrelation(10);
@@ -89,9 +110,12 @@ public class GameAnalyzer {
         // creates the histogram
         createCorrelationChart(ca.histogram(numBins), "correlation");
 
+        // save result to file
+        String txt = "Point Biserial: " + result;
+        saveTextToFile(txt, "correlation", "Correlation between winrate and rating diff");
+
         // Essentially Pearson's R
-        System.out.println("Point Biserial: " + result);
-        // TODO logging actually goes here
+        System.out.println(txt);
     }
 
     public void compareCorrelations(List<List<String>> otherCsv) {
@@ -106,7 +130,14 @@ public class GameAnalyzer {
         Map<String, Double> result = lga.analyze();
 
         createRegressionChart(result, "regression");
-        System.out.println("Regression Training Score: " + lga.score());
+
+        // formats map
+        String txt = result.entrySet().stream().map(e -> e.getKey() + ": " + e.getValue()).collect(Collectors.joining(System.lineSeparator()));
+        String score = "Regression Training Score: " + lga.score();
+        txt += System.lineSeparator() + score;
+        saveTextToFile(txt, "regression", "Logistic Regression Weights");
+
+        System.out.println(score);
     }
 
     public void analyzeAllSimpleFrequency() {

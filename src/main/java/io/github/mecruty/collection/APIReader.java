@@ -34,7 +34,7 @@ public class APIReader {
             // Collect lines with Scanner
             String inline = "";
 
-            try (Scanner scanner = new Scanner(url.openStream());) {
+            try (Scanner scanner = new Scanner(url.openStream())) {
                 // Write all the JSON data into a string using Scanner
                 while (scanner.hasNext()) {
                     inline += scanner.nextLine();

@@ -37,7 +37,7 @@ public class CSVParser {
 
         String csv = CDL.toString(docs);
 
-        try (PrintWriter writer = new PrintWriter(file);) {
+        try (PrintWriter writer = new PrintWriter(file)) {
             if (csv != null) {
                 writer.print(csv);
             }

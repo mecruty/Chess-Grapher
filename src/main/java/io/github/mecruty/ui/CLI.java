@@ -142,8 +142,10 @@ public class CLI {
         System.out.println("Would you like to continue? (y/[n])");
         String next = sc.nextLine();
         if (!next.trim().toLowerCase().equals("y")) {
+            System.out.println("Delete operation cancelled");
             return;
         }
+        System.out.println("Confirmed, deleting...");
 
         // csv not needed
         GameAnalyzer ga = new GameAnalyzer(username, null);
