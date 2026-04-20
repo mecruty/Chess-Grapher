@@ -17,14 +17,16 @@ public class GameAnalyzer {
     private String username;
     private List<List<String>> csv;
     private ChartVisualizer vis;
+    File dir;
 
     public GameAnalyzer(String username, List<List<String>> csv) {
         this.csv = csv;
         this.username = username;
         vis = new ChartVisualizer(this.username);
 
+        dir = new File("./data/" + username + "/visualization");
+
         // Creates the directory for the general visualization
-        File dir = new File("./data/" + username + "/visualization");
         if (dir != null && !dir.exists()) {
             dir.mkdirs();
         }
@@ -32,7 +34,7 @@ public class GameAnalyzer {
 
     public void analyzeAll() {
         analyzeAllSimpleFrequency();
-        // example for now
+        // example for now TODO
         analyzeComplexFrequency("time_class", "bullet");
 
         analyzeRegressionWeights();
@@ -40,6 +42,37 @@ public class GameAnalyzer {
         analyzeDiffCorrelation();
 
         System.out.println("Data analyzed!");
+    }
+
+    // NOTE: use carefully, data recollection required after
+    // deletes all data from a user
+    public void deleteAllData() {
+        File userDir = new File("./data/" + username);
+        if (userDir.exists()) {
+            deleteFolder(userDir);
+        }
+    }
+
+    // deletes everything in the visualization folder
+    public void deleteAnalyses() {
+        if (dir.exists()) {
+            deleteFolder(dir);
+        }
+    }
+
+    // recursively deletes everything in folder
+    private void deleteFolder(File folder) {
+        File[] files = folder.listFiles();
+        if (files != null) {
+            for (File f : files) {
+                if (f.isDirectory()) {
+                    deleteFolder(f);
+                } else {
+                    f.delete();
+                }
+            }
+        }
+        folder.delete();
     }
 
     // default to 10 bins
@@ -113,11 +146,13 @@ public class GameAnalyzer {
     private void createCorrelationChart(Map<String, Double> result, String folder) {
         Map<String, Integer> resultScaled = new LinkedHashMap<>();
 
+        int count = 0;
         for (String key : result.keySet()) {
             resultScaled.put(key, (int) (result.get(key) * 100));
+            count++;
         }
 
-        makeHistogram("Correlation-of-ratingDiff-and-winrate", resultScaled, folder, "Winrate (%)");
+        makeHistogram("Correlation-of-ratingDiff-and-winrate-" + count + "-bins", resultScaled, folder, "Winrate (%)");
     }
 
     // Creates, saves, and displays a histogram
@@ -147,7 +182,7 @@ public class GameAnalyzer {
             // regression
             name = "Regression Weights";
         } else if (split[0].equals("Correlation")) {
-            name = "(Own. rating - Opp. rating) vs. Winrate";
+            name = "(Own. rating - Opp. rating) vs. Winrate  (" + split[5] + " bins)";
         } else if (split[1].equals("Frequency")) {
             // simple frequency
             name = "Frequency of ";

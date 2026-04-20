@@ -79,7 +79,7 @@ public class CLI {
     }
 
     @Command(name = "correlate", description = "Finds and graphs correlation between rating difference and win/loss. >0.3 is considered very well correlated")
-    void summarize(
+    void correlate(
         @Parameters(index = "0", description = "Chess.com username of selected player")
         String username,
 
@@ -128,6 +128,32 @@ public class CLI {
         } catch (IOException e) {
             IOExceptionMessage();
         }
+    }
+
+    @Command(name = "delete", description = "Deletes all charts and analyzed info of player")
+    void delete(
+        @Parameters(index = "0", description = "Chess.com username of selected player")
+        String username,
+
+        @Option(names = {"-a", "--all"}, description = "Deletes ALL player game data")
+        boolean all
+    ) {
+        System.out.println("IMPORTANT: this will delete player/analysis data");
+        System.out.println("Would you like to continue? (y/[n])");
+        String next = sc.nextLine();
+        if (!next.trim().toLowerCase().equals("y")) {
+            return;
+        }
+
+        // csv not needed
+        GameAnalyzer ga = new GameAnalyzer(username, null);
+        if (!all) {
+            ga.deleteAnalyses();
+        } else {
+            ga.deleteAllData();
+        }
+
+        System.out.println("Successfully deleted!");
     }
 
     private void FileNotFoundErrorMessage() {
