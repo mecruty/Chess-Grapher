@@ -47,10 +47,13 @@ public class GameAnalyzer {
         analyzeDiffCorrelation(10);
     }
 
+    // creates histogram and calculates point biserial
     public void analyzeDiffCorrelation(int numBins) {
         CorrelationAnalyzer ca = new CorrelationAnalyzer(csv);
+        // runs point biserial
         double result = ca.analyze();
 
+        // creates the histogram
         createCorrelationChart(ca.histogram(numBins), "correlation");
 
         // Essentially Pearson's R

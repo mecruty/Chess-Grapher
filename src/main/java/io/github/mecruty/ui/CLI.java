@@ -64,11 +64,9 @@ public class CLI {
                 if (regression) ga.analyzeRegressionWeights();
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Error: This player's data does not exist");
-            System.out.println("Try collecting player data with \"collect\" first");
+            FileNotFoundErrorMessage();
         } catch (IOException e) {
-            System.out.println("Error: Data could not be analyzed");
-            System.out.println("Try recollecting player data");
+            IOExceptionMessage();
         }
     }
 
@@ -80,13 +78,16 @@ public class CLI {
         ga.analyzeComplexFrequency(filterKey, filterValue);
     }
 
-    @Command(name = "correlate", description = "Finds correlation between rating difference and win/loss. >0.3 is considered very well correlated")
+    @Command(name = "correlate", description = "Finds and graphs correlation between rating difference and win/loss. >0.3 is considered very well correlated")
     void summarize(
         @Parameters(index = "0", description = "Chess.com username of selected player")
         String username,
 
         @Parameters(index = "1", arity = "0..1", description = "Second username (required for comparison)")
         String username2,
+
+        @Parameters(index = "1", arity = "0..1", description = "Number of bins to be used in histogram (default: 10)")
+        String binCount,
 
         @Option(names = {"-c", "--compare"}, description = "Runs all analyses")
         boolean compare
@@ -97,7 +98,22 @@ public class CLI {
             ga = new GameAnalyzer(username, csvp.loadCSV());
 
             if (!compare) {
-                ga.analyzeDiffCorrelation();
+                if (binCount == null) {
+                    System.out.println("Defaulting to 10 bins for histogram...");
+                    ga.analyzeDiffCorrelation();
+                } else {
+                    int count;
+                    try {
+                        count = Integer.parseInt(binCount);
+                        if (count <= 0) {
+                            throw new NumberFormatException();
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("The number of bins must be an integer larger than 0");
+                        return;
+                    }
+                    ga.analyzeDiffCorrelation(count);
+                }
             } else {
                 if (username2 == null) {
                     System.out.println("Error: Second username needed");
@@ -108,11 +124,19 @@ public class CLI {
                 ga.compareCorrelations(csvp2.loadCSV());
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Error: This player's data does not exist");
-            System.out.println("Try collecting player data with \"collect\" first");
+            FileNotFoundErrorMessage();
         } catch (IOException e) {
-            System.out.println("Error: Data could not be analyzed");
-            System.out.println("Try recollecting player data");
+            IOExceptionMessage();
         }
+    }
+
+    private void FileNotFoundErrorMessage() {
+        System.out.println("Error: This player's data does not exist");
+        System.out.println("Try collecting player data with \"collect\" first");
+    }
+
+    private void IOExceptionMessage() {
+        System.out.println("Error: Data could not be analyzed");
+        System.out.println("Try recollecting player data");
     }
 }
