@@ -33,16 +33,14 @@ public class APIReader {
 
             // Collect lines with Scanner
             String inline = "";
-            Scanner scanner = new Scanner(url.openStream());
-
-            // Write all the JSON data into a string using Scanner
-            while (scanner.hasNext()) {
-                inline += scanner.nextLine();
+            
+            try (Scanner scanner = new Scanner(url.openStream());) {
+                // Write all the JSON data into a string using Scanner
+                while (scanner.hasNext()) {
+                    inline += scanner.nextLine();
+                }
             }
-
-            // Close the scanner
-            scanner.close();
-
+            
             // Converts string to json
             JSONObject json = new JSONObject(inline);
 
