@@ -5,7 +5,7 @@ data/
 
 .vscode
 
-.jar
+*.jar
 
 # maven
 target/
