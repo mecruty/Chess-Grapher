@@ -116,7 +116,12 @@ public class CorrelationAnalyzer extends Analyzer {
 
         for (int i = 0; i < rowCount; i++) {
             ratingDiff[i] = rating[i] - oppRating[i];
-            results[i] = result[i].equals("win") ? 1 : 0;
+            results[i] = result[i].equals("win") ? 1 :
+             (result[i].equals("agreed") ||
+              result[i].equals("repetition") ||
+              result[i].equals("insufficient") ||
+              result[i].equals("timevsinsufficient") ||
+              result[i].equals("stalemate")) ? 0.5 : 0;
         }
     }
 }
