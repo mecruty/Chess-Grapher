@@ -65,7 +65,7 @@ public class ChartVisualizer {
                 RENDER_SCALE_FACTOR, RENDER_SCALE_FACTOR);
 
         } catch (IOException e) {
-            throw new RuntimeException("Saving chart failed");
+            throw new RuntimeException("Saving chart failed", e);
         }
     }
 

@@ -14,7 +14,7 @@ public class APIReader {
         try {
             url = new URI(dest).toURL();
         } catch (Exception e) {
-            throw new RuntimeException("APIReader constructor failed");
+            throw new RuntimeException("APIReader constructor failed", e);
         }
     }
 
@@ -33,7 +33,7 @@ public class APIReader {
 
             // Collect lines with Scanner
             String inline = "";
-            
+
             try (Scanner scanner = new Scanner(url.openStream());) {
                 // Write all the JSON data into a string using Scanner
                 while (scanner.hasNext()) {
@@ -47,7 +47,7 @@ public class APIReader {
             return json;
             
         } catch (Exception e) {
-            throw new RuntimeException("APIReader read failed");
+            throw new RuntimeException("APIReader read failed", e);
         }
     }
 }

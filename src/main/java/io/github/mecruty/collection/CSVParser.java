@@ -42,7 +42,7 @@ public class CSVParser {
                 writer.print(csv);
             }
         } catch (FileNotFoundException e) {
-            throw new RuntimeException("Writing to csv failed");
+            throw new RuntimeException("Writing to csv failed", e);
         }
     }
 
