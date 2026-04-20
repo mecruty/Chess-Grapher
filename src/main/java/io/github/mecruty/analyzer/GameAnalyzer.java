@@ -2,6 +2,7 @@ package io.github.mecruty.analyzer;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -107,13 +108,22 @@ public class GameAnalyzer {
 
     // Creates, saves, and displays percentage winrates compared to rating diff
     private void createCorrelationChart(Map<String, Double> result, String folder) {
-        Map<String, Integer> resultScaled = new HashMap<>();
+        Map<String, Integer> resultScaled = new LinkedHashMap<>();
 
         for (String key : result.keySet()) {
             resultScaled.put(key, (int) (result.get(key) * 100));
         }
 
-        makeBarChart("Correlation-of-ratingDiff-and-winrate", resultScaled, folder, "Winrate (%)");
+        makeHistogram("Correlation-of-ratingDiff-and-winrate", resultScaled, folder, "Winrate (%)");
+    }
+
+    // Creates, saves, and displays a histogram
+    private void makeHistogram(String rawName, Map<String, Integer> map, String folder, String rowName) {
+        String name = fixChartName(rawName);
+
+        JFreeChart chart = vis.createHistogram(name, map, rowName);
+        vis.saveChart(name, chart, folder);
+        vis.displayChart(chart);
     }
 
     // Creates, saves, and displays a general bar graph

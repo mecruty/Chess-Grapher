@@ -2,7 +2,7 @@ package io.github.mecruty.analyzer.regressionAnalyzers;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
@@ -73,7 +73,7 @@ public class CorrelationAnalyzer extends Analyzer {
 
         
         // Creating bins
-        Map<String, Double> bins = new HashMap<>();
+        Map<String, Double> bins = new LinkedHashMap<>();
         int gamesPerBin = rowCount / numBins;
 
         for (int i = 0; i < numBins; i++) {
@@ -81,10 +81,10 @@ public class CorrelationAnalyzer extends Analyzer {
             int countedGamesEnd = countedGames + gamesPerBin;
 
             int startDiff = (int) sortedDiff[countedGames];
-            int endDiff = (int) sortedDiff[countedGamesEnd];
+            int endDiff = (int) sortedDiff[countedGamesEnd - 1];
             double winrate = 0;
             for (int j = countedGames; j < countedGamesEnd; j++) {
-                winrate += results[j];
+                winrate += sortedRes[j];
             }
 
             int divideBy = gamesPerBin;
@@ -93,14 +93,14 @@ public class CorrelationAnalyzer extends Analyzer {
             if (i == numBins - 1) {
                 int extra = rowCount - (countedGamesEnd);
                 for (int j = countedGamesEnd; j < countedGamesEnd + extra; j++) {
-                    winrate += results[j];
+                    winrate += sortedRes[j];
                 }
                 divideBy += extra;
             }
 
             winrate /= divideBy;
 
-            bins.put(startDiff + "-" + endDiff, winrate);
+            bins.put(startDiff + " to " + endDiff, winrate);
         }
 
         return bins;

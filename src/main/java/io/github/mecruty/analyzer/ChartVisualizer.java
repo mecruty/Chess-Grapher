@@ -15,6 +15,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
@@ -86,14 +87,33 @@ public class ChartVisualizer {
         return chart;
     }
 
-    // Creates a bar chart given proper dataset
+    // Creates histogram
+    public JFreeChart createHistogram(String title, Map<String, Integer> values, String rowName) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        List<Entry<String, Integer>> list = new ArrayList<>(values.entrySet());
+        for (Entry<String, Integer> value : list) {
+            dataset.addValue(value.getValue(), "Result", value.getKey());
+        }
+
+        JFreeChart chart = formatBarChart(title, dataset, rowName, true);
+
+        return chart;
+    }
+
+    // defaults to not histogram
     private JFreeChart formatBarChart(String title, DefaultCategoryDataset dataset, String rowName) {
+        return formatBarChart(title, dataset, rowName, false);
+    }
+
+    // Creates a bar chart given proper dataset
+    private JFreeChart formatBarChart(String title, DefaultCategoryDataset dataset, String rowName, boolean isHistogram) {
         JFreeChart chart = ChartFactory.createBarChart(
                 title,
                 null,
                 rowName,
                 dataset,
-                PlotOrientation.HORIZONTAL,
+                isHistogram ? PlotOrientation.VERTICAL : PlotOrientation.HORIZONTAL,
                 false,
                 true,
                 false);
@@ -119,13 +139,14 @@ public class ChartVisualizer {
         renderer.setDefaultItemLabelsVisible(true);
         renderer.setSeriesItemLabelFont(0, new Font("Calibri", Font.PLAIN, 12));
 
-        formatBarAxes(plot, dataset);
+        renderer.setIncludeBaseInRange((!isHistogram));
+        formatBarAxes(plot, dataset, (!isHistogram));
 
         return chart;
     }
 
     // Formats margins and bounds of bar chart axes
-    private void formatBarAxes(CategoryPlot plot, DefaultCategoryDataset dataset) {
+    private void formatBarAxes(CategoryPlot plot, DefaultCategoryDataset dataset, boolean includeZero) {
         // Making bars closer together when theres less, currently max bar width is 10% of graph
         // So max space given is count * 10%
         CategoryAxis domainAxis = plot.getDomainAxis();
@@ -138,9 +159,7 @@ public class ChartVisualizer {
         // If boundaries become inconsistent, pass through list
         // For now, default behaviour seems to be mostly stable
 
-        // ValueAxis rangeAxis = plot.getRangeAxis();
-        // rangeAxis.setAutoRange(false);
-        // rangeAxis.setLowerBound(0.0);
-        // rangeAxis.setUpperBound(list.get(0).getValue() * 1.1);
+        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+        rangeAxis.setAutoRangeIncludesZero(includeZero);
     }
 }
