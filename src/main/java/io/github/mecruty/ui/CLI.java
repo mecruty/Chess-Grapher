@@ -41,9 +41,6 @@ public class CLI {
         @Option(names = {"-c", "--complex"}, description = "Runs complex frequency graphs, needs further input")
         boolean complex,
 
-        @Option(names = {"-r", "--regression"}, description = "Runs linear regression to find weights for each variable")
-        boolean regression,
-
         @Option(names = {"-a", "--all"}, description = "Runs all analyses")
         boolean all
 
@@ -53,21 +50,22 @@ public class CLI {
         try {
             ga = new GameAnalyzer(username, csvp.loadCSV());
             
-            if (!(all || simple || complex || regression)) {
+            if (!(all || simple || complex)) {
                 System.out.println("Defaulting to simple frequency analysis...");
                 ga.analyzeAllSimpleFrequency();
             } else if (all) {
-                ga.analyzeAll();
+                ga.analyzeAllFrequency();
             } else {
                 if (simple) ga.analyzeAllSimpleFrequency();
                 if (complex) runComplexFrequencyAnalysis(ga);
-                if (regression) ga.analyzeRegressionWeights();
             }
         } catch (FileNotFoundException e) {
             FileNotFoundErrorMessage();
         } catch (IOException e) {
             IOExceptionMessage();
         }
+
+        System.out.println("Data analyzed!");
     }
 
     private void runComplexFrequencyAnalysis(GameAnalyzer ga) {
@@ -76,6 +74,25 @@ public class CLI {
         System.out.println("Choose a specific outcome to filter by:");
         String filterValue = sc.nextLine();
         ga.analyzeComplexFrequency(filterKey, filterValue);
+    }
+
+    @Command(name = "regression", description = "Builds and can predict ")
+    void regression(
+        @Parameters(index = "0", description = "Chess.com username of selected player")
+        String username
+    ) {
+        CSVParser csvp = new CSVParser(username);
+        GameAnalyzer ga;
+        try {
+            ga = new GameAnalyzer(username, csvp.loadCSV());
+            ga.analyzeRegressionWeights();
+        } catch (FileNotFoundException e) {
+            FileNotFoundErrorMessage();
+        } catch (IOException e) {
+            IOExceptionMessage();
+        }
+
+        System.out.println("Data analyzed!");
     }
 
     @Command(name = "correlate", description = "Finds and graphs correlation between rating difference and win/loss. >0.3 is considered very well correlated")
@@ -89,7 +106,7 @@ public class CLI {
         @Parameters(index = "1", arity = "0..1", description = "Number of bins to be used in histogram (default: 10)")
         String binCount,
 
-        @Option(names = {"-c", "--compare"}, description = "Runs all analyses")
+        @Option(names = {"-c", "--compare"}, description = "Compares correlation value between two users, not graphed")
         boolean compare
     ) {
         CSVParser csvp = new CSVParser(username);
@@ -128,6 +145,8 @@ public class CLI {
         } catch (IOException e) {
             IOExceptionMessage();
         }
+
+        System.out.println("Data analyzed!");
     }
 
     @Command(name = "delete", description = "Deletes all charts and analyzed info of player")

@@ -40,13 +40,13 @@ public class LogisticRegressionAnalyzer extends Analyzer {
 
         for (int i = 0; i < featureNames.length; i++) {
             coefficientsMap.put(featureNames[i], modelCoefficients[i]);
-            // TODO remove
-            System.out.println(featureNames[i] + " " + modelCoefficients[i]);
+            // For potential logging purposes
+            //System.out.println(featureNames[i] + " " + modelCoefficients[i]);
         }
         
         if (modelCoefficients.length > featureNames.length) {
             coefficientsMap.put("Intercept", modelCoefficients[modelCoefficients.length - 1]);
-            System.out.println("Intercept " + modelCoefficients[modelCoefficients.length - 1]);
+            //System.out.println("Intercept " + modelCoefficients[modelCoefficients.length - 1]);
         }
 
         return coefficientsMap;
@@ -118,7 +118,6 @@ public class LogisticRegressionAnalyzer extends Analyzer {
     // Tests model accuracy on the current csv
     public double score() {
         if (model == null) throw new IllegalStateException("Model must be trained before scoring.");
-
         prepareData();
         double[][] scaledX = scaler.apply(DataFrame.of(x, featureNames)).toArray();
         int correct = 0;

@@ -34,16 +34,10 @@ public class GameAnalyzer {
         }
     }
 
-    public void analyzeAll() {
+    public void analyzeAllFrequency() {
         analyzeAllSimpleFrequency();
         // example for now TODO
         analyzeComplexFrequency("time_class", "bullet");
-
-        analyzeRegressionWeights();
-        // TODO put this in separate places
-        analyzeDiffCorrelation();
-
-        System.out.println("Data analyzed!");
     }
 
     // NOTE: use carefully, data recollection required after
@@ -123,6 +117,12 @@ public class GameAnalyzer {
         double[] result = ca.compare(otherCsv);
 
         System.out.println(result[0] + " " + result[1]);
+
+        if (result[0] > result[1]) {
+            System.out.println("User 1 has a better rating-diff/winrate correlation than user 2 by " + (result[0] - result[1]) + "!");
+        } else {
+            System.out.println("User 2 has a better rating-diff/winrate correlation than user 1 by " + (result[1] - result[0]) + "!");
+        }
     }
 
     public void analyzeRegressionWeights() {
