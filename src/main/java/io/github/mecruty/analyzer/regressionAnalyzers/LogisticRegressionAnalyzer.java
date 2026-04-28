@@ -28,12 +28,12 @@ public class LogisticRegressionAnalyzer extends Analyzer {
         prepareData();
         
         DataFrame featuresDf = DataFrame.of(x, featureNames);
-        this.scaler = Standardizer.fit(featuresDf);
+        scaler = Standardizer.fit(featuresDf);
         DataFrame scaledFeaturesDf = scaler.apply(featuresDf);
 
         double[][] scaledX = scaledFeaturesDf.toArray();
 
-        this.model = (LogisticRegression.Binomial) LogisticRegression.fit(scaledX, y);
+        model = (LogisticRegression.Binomial) LogisticRegression.fit(scaledX, y);
 
         Map<String, Double> coefficientsMap = new HashMap<>();
         double[] modelCoefficients = model.coefficients();
@@ -74,10 +74,10 @@ public class LogisticRegressionAnalyzer extends Analyzer {
                 namesList.add(key + "_" + cat);
             }
         }
-        this.featureNames = namesList.toArray(new String[0]);
+        featureNames = namesList.toArray(new String[0]);
 
-        this.x = new double[rowCount][featureNames.length];
-        this.y = new int[rowCount];
+        x = new double[rowCount][featureNames.length];
+        y = new int[rowCount];
 
         int[] rating = getColumn("rating").stream().mapToInt(Integer::parseInt).toArray();
         int[] oppRating = getColumn("opponent_rating").stream().mapToInt(Integer::parseInt).toArray();
@@ -118,6 +118,7 @@ public class LogisticRegressionAnalyzer extends Analyzer {
     // Tests model accuracy on the current csv
     public double score() {
         if (model == null) throw new IllegalStateException("Model must be trained before scoring.");
+
         prepareData();
         double[][] scaledX = scaler.apply(DataFrame.of(x, featureNames)).toArray();
         int correct = 0;
@@ -136,6 +137,6 @@ public class LogisticRegressionAnalyzer extends Analyzer {
     }
     
     public void setData(List<List<String>> newCsv) {
-        this.csv = newCsv;
+        csv = newCsv;
     }
 }

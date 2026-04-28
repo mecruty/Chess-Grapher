@@ -180,10 +180,12 @@ public class CLI {
     private void FileNotFoundErrorMessage() {
         System.out.println("Error: This player's data does not exist");
         System.out.println("Try collecting player data with \"collect\" first");
+        return;
     }
 
     private void IOExceptionMessage() {
         System.out.println("Error: Data could not be analyzed");
         System.out.println("Try recollecting player data");
+        return;
     }
 }

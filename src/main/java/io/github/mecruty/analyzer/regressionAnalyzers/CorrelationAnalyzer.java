@@ -51,7 +51,7 @@ public class CorrelationAnalyzer extends Analyzer {
     }
 
     // Returns bins with equal quantity games and winrates for each bin
-    // TODO complex
+    // Kinda long
     public Map<String, Double> histogram(int numBins) {
         int rowCount = csv.size() - 1;
         
