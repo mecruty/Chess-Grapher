@@ -1,6 +1,6 @@
 # Chess Analyzer
 
-A Java based command line tool for downloading, parsing, and analyzing game histories from Chess.com. Extracts player statistics, constructs visualization charts, and applies machine learning to identify key factors impacting game outcomes.
+A Java based command line tool for downloading, parsing, and analyzing game history from Chess.com. Extracts player statistics, constructs charts, and uses logistic regression to identify key factors impacting game outcomes.
 
 ## Features
 
@@ -17,7 +17,7 @@ Generates bar charts, displaying metrics such as:
     <img src="examples/SimpleFrequencyDemo.png" alt="Frequency Demo Image" width="600">
 </p>
 
-### Machine Learning Analysis
+### Regression Analysis
 Trains a logistic regression classifier on game features (rating difference, color, ruleset, etc.) and visualizes the predictive weight of each variable.
 
 <p align="center">
