@@ -11,7 +11,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-@Command(name = "ChessAnalyzer", mixinStandardHelpOptions = true, version = "1.0.0")
+@Command(name = "ChessGrapher", mixinStandardHelpOptions = true, version = "1.0")
 public class CLI {
     static Scanner sc = new Scanner(System.in);
 
