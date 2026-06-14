@@ -30,6 +30,10 @@ public class ChartVisualizer {
     private static final int CHART_WIDTH = 800;
     private static final int CHART_HEIGHT = 600;
     private static final int RENDER_SCALE_FACTOR = 3;
+    private static final Color LIGHT_GRAY = new Color(200, 200, 200);
+    // Main bar colour
+    private static final Color PRIMARY_CYAN = new Color(79, 189, 189);
+    private static final Font DEFAULT_FONT = new Font("Calibri", Font.PLAIN, 12);
 
     private String username;
 
@@ -123,21 +127,21 @@ public class ChartVisualizer {
         plot.setOutlineVisible(false);
         
         // gridlines light grey
-        plot.setRangeGridlinePaint(new Color(200, 200, 200)); 
+        plot.setRangeGridlinePaint(LIGHT_GRAY); 
         plot.setRangeGridlinesVisible(true);
 
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
         renderer.setBarPainter(new StandardBarPainter());
         renderer.setShadowVisible(false);
         // random cyan I liked
-        renderer.setSeriesPaint(0, new Color(79, 189, 189));
+        renderer.setSeriesPaint(0, PRIMARY_CYAN);
         // max bar width 10%
         renderer.setMaximumBarWidth(0.1);
 
         // displays count of each value at end of bar
         renderer.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
         renderer.setDefaultItemLabelsVisible(true);
-        renderer.setSeriesItemLabelFont(0, new Font("Calibri", Font.PLAIN, 12));
+        renderer.setSeriesItemLabelFont(0, DEFAULT_FONT);
 
         renderer.setIncludeBaseInRange((!isHistogram));
         formatBarAxes(plot, dataset, (!isHistogram));

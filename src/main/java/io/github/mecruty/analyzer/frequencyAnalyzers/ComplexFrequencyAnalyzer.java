@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// Assuming a filter by this, what is the distribution of something else (pie chart)
+// Assuming a filter by this, what is the distribution of something else
 public class ComplexFrequencyAnalyzer extends FrequencyAnalyzer {
     public ComplexFrequencyAnalyzer(List<List<String>> csv) {
         super(csv);
