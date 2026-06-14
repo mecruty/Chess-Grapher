@@ -15,15 +15,11 @@ import picocli.CommandLine.Parameters;
 public class CLI {
     static Scanner sc = new Scanner(System.in);
 
-    @Command(name = "collect", description = "Collects and updates any missing game data from player")
+    @Command(name = "collect", description = "Collects all game data from player (May take several minutes)")
     void collect(
         @Parameters(index = "0", description = "Chess.com username of selected player")
-        String username,
-
-        @Option(names = {"-a", "--all"}, description = "Collects ALL game data from player (May take several minutes)")
-        boolean all
+        String username
     ) {
-        // TODO implement usecase for all tag
         GamesCollector gc = new GamesCollector(username);
         CSVParser csvp = new CSVParser(username);
         csvp.saveJSONToCSV(gc.collectAll());
